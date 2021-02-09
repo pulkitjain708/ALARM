@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.dev.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    <center>
+        <h1>
+            <div>
+                Current Time <p id="crt"></p>
+            </div>
+        </h1>
+    </center>
+
+
+
+    Choose : <input type="time" name="time" id="time">
+    <button id="btn">Alarm</button>
+
+</body>
+
+<script
+  src="https://code.jquery.com/jquery-3.4.1.js"
+  integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+  crossorigin="anonymous"></script>
+<script>
+
+$(()=>{
+    const socket=io.connect("http://localhost:8080");
+           $("#btn").click(()=>{
+               socket.emit("addtimer",$("#time").val())
+           });
+           socket.on("ringing",function(data){
+                  alert("Your time has come,u r no more")
+});
+    setInterval(()=>{
+        var date= new Date()
+        var seconds=date.getSeconds();
+        var minutes=date.getMinutes();
+        var hours=date.getHours();
+        $("#crt").text(
+            ` ${hours} : ${minutes} : ${seconds}`
+        )
+    },1000)
+})
+</script>
+</html>
